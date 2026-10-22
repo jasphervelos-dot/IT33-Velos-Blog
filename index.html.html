@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can We Trust the “SOC Pilot”? Evaluating the Autonomous SOC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1b24;--panel:#13222d;--line:#22343f;--text:#e8eef2;--muted:#9fb1bc;--accent:#8aa4ff;--avatar:#b9a8f5;
+--sans:"Space Grotesk",system-ui,sans-serif;--serif:"Source Serif 4",Georgia,serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--serif);font-size:19px;line-height:1.75}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:1100px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;font-family:var(--sans)}
+.who{position:relative}
+.who>button{display:flex;align-items:center;gap:12px;background:var(--panel);color:var(--text);border:0;border-radius:999px;padding:6px 14px 6px 6px;font:500 18px var(--sans);cursor:pointer}
+.av{width:42px;height:42px;border-radius:50%;background:var(--avatar);color:#2a2350;display:grid;place-items:center;font-weight:700;font-size:15px}
+.who svg{transition:transform .2s}.who.open svg{transform:rotate(180deg)}
+.pop{display:none;position:absolute;top:56px;left:0;width:min(440px,92vw);max-height:78vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.who.open .pop{display:block}
+.pop h3{margin:0 0 14px;font-size:20px}
+.pop dt{color:var(--muted);font-size:14px;margin-top:14px}.pop dd{margin:2px 0 0;font-size:17px}
+.pop a{color:var(--accent)}
+.pop hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+.pop label{display:block;color:var(--muted);font-size:14px;margin-top:14px}
+.pop input,.pop textarea{width:100%;margin-top:6px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:12px;font:16px var(--sans)}
+.pop textarea{min-height:110px;resize:vertical}
+.pop .send{margin-top:16px;background:var(--accent);color:#0d1530;border:0;border-radius:6px;padding:10px 18px;font:700 15px var(--sans);cursor:pointer}
+nav a{color:var(--text);text-decoration:none;font-weight:500;font-size:18px;margin-left:22px}
+nav a:hover{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+main{max-width:720px;margin:0 auto;padding:56px 20px 100px}
+h1{font:700 clamp(30px,5vw,44px)/1.15 var(--sans);margin:0 0 28px;letter-spacing:-.01em}
+h2{font:700 clamp(24px,3.4vw,32px)/1.25 var(--sans);margin:56px 0 14px}
+p{margin:0 0 20px}li{margin-bottom:10px}
+.meta{color:var(--muted);font:16px var(--sans);margin-bottom:36px}
+.refs p{padding-left:2em;text-indent:-2em}
+.refs a{color:var(--accent);word-break:break-all}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:560px){body{font-size:17px}nav a{margin-left:14px;font-size:16px}.who>button span.n{display:none}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="who" id="who">
+    <button type="button" aria-expanded="false" aria-controls="pop" id="tog"><span class="av">JV</span><span class="n">Jaspher Austen Velos</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 15l6-6 6 6"/></svg></button>
+    <div class="pop" id="pop">
+      <h3>Student details</h3>
+      <dl>
+        <dt>Name</dt><dd>Jaspher Austen Velos</dd>
+        <dt>Section</dt><dd>IT33</dd>
+        <dt>Subject</dt><dd>IT 372</dd>
+        <dt>School email</dt><dd><a href="mailto:jaspher.velos@urios.edu.ph">jaspher.velos@urios.edu.ph</a></dd>
+      </dl>
+      <hr>
+      <h3>Send me an email</h3>
+      <form id="mail">
+        <label for="fn">Your name</label><input id="fn" required>
+        <label for="fs">Subject</label><input id="fs" required>
+        <label for="fm">Message</label><textarea id="fm" required></textarea>
+        <button class="send" type="submit">Send email</button>
+      </form>
+    </div>
+  </div>
+  <nav><a href="#post">Blog post</a><a href="#references">References</a></nav>
+</div></header>
+
+<main>
+<article id="post">
+<h1>Can We Trust the “SOC Pilot”? Evaluating the Autonomous SOC</h1>
+<p class="meta">By Jaspher Austen Velos · Module 4.1 Exercise</p>
+
+<p>Commercial airliners spend most of a flight on autopilot. Machines handle the routine work, and pilots take control when something unexpected happens. John Velisaris (2025), an Associate Partner at IBM Cyber Threat Management Services, argues that security operations centers (SOCs) should be restructured the same way. In his vision, AI handles standard operations and human analysts become “SOC pilots” who step in only when something unfamiliar appears, such as a zero-day attack.</p>
+<p>The analogy is appealing, and I think it is mostly right. But after reading the article closely, I believe the SOC pilot model is realistic only under certain conditions, and responsible only if we are honest about where autonomy should stop. This post looks at where AI can safely act alone, where human judgment has to stay, what happens when an agent’s information is wrong, and what skills an analyst needs to become a pilot instead of being replaced.</p>
+
+<h2>Why the pilot model makes sense</h2>
+<p>SOC analysts today are buried. Velisaris (2025) lists the familiar problems: telling real signals apart from background noise, investigating alerts with too little context, missing end-to-end automation, workflow bottlenecks, and alert fatigue. Anyone who has spent time with a security queue knows how quickly a person can burn out triaging the same low-value alerts over and over.</p>
+<p>The article’s key insight is that the industry already has automation but not autonomy. Automation works well in closed systems. Velisaris notes that endpoint detection and response (EDR) tools can automate responses effectively because the agent and the console understand every relevant variable. Open environments are harder. In a typical SIEM and SOAR setup, a playbook might quarantine a host if it is not a server and is running known malicious activity. That rule cannot fire until someone knows what the asset actually is. Today, a human analyst supplies that missing context through manual “swivel chair” work, jumping between tools to piece the picture together.</p>
+<p>Agentic AI aims to replace that swivel chair. IBM describes an orchestrator called ATOM that builds a task list for investigating an alert. When it finds the asset context inadequate, it queries other agents tied to vulnerability management, configuration databases, and EDR or XDR systems, then reasons about whether the host is a workstation or something more critical (Velisaris, 2025). That is the same logic a human analyst would follow, executed faster and without fatigue.</p>
+
+<h2>Where AI can safely act on its own</h2>
+<p>The pilot model is realistic for work that is repetitive, well-bounded, and reversible. Alert enrichment is the clearest case. Pulling a hostname’s vulnerability history, checking its owner in a CMDB, and correlating it with recent EDR telemetry are read-only tasks. If an agent gets one wrong, the cost is a wasted minute, not an outage.</p>
+<p>Triage of known, high-confidence patterns is another safe zone, such as commodity phishing, known malware signatures, or repeated failed logins from a flagged IP. So are low-impact, easily reversed containment actions, like isolating a standard workstation that is plainly running known malicious code. This matches Velisaris’s own example, in which quarantine is appropriate when the host is confirmed to be a workstation and the activity is recognized (Velisaris, 2025).</p>
+<p>The principle I would apply is simple: autonomy should scale with confidence and inversely with blast radius. The more certain the agent is, and the smaller the damage if it is wrong, the more freedom it should have.</p>
+
+<h2>Where human judgment must remain</h2>
+<p>Velisaris (2025) is clear that the pilot’s job is the unknown. Zero-day vulnerabilities are by definition things the security community has not seen, so there is no playbook and little or no training data for an agent to lean on. Humans are better at reasoning through novelty, forming hypotheses, and recognizing that something simply feels off.</p>
+<p>I would add several other areas where people must stay in charge:</p>
+<ul>
+<li><strong>High-impact actions.</strong> Shutting down a production database, disabling an executive’s account, or cutting off a network segment can cause more business damage than the attack itself. These decisions involve business priorities, legal exposure, and risk tolerance that an agent cannot weigh.</li>
+<li><strong>Accountability.</strong> The NIST AI Risk Management Framework emphasizes that responsible AI depends on clear governance, including defined roles and responsibilities for human oversight (Tabassi, 2023). If an autonomous agent isolates the wrong system, someone has to own that decision. “The AI did it” is not an acceptable answer to leadership, regulators, or customers.</li>
+<li><strong>Ambiguous or conflicting evidence.</strong> When signals contradict each other, a human can ask a colleague, call a system owner, or pause and investigate. An agent tends to resolve ambiguity by picking an answer.</li>
+</ul>
+<p>The airline analogy actually supports this. Pilots remain on the flight deck not because autopilot is bad, but because the cost of an unhandled surprise is too high to leave to a system that cannot recognize its own limits.</p>
+
+<h2>When the asset information is incomplete or wrong</h2>
+<p>This is the part of the article I find most important, because the whole model rests on it. Velisaris (2025) stresses that context is paramount: an automated response cannot activate until the identity of the asset is known. Agentic AI addresses this by gathering context itself. But that creates a dependency. The agent’s decisions are only as good as the CMDB, vulnerability scanner, and configuration data it consults.</p>
+<p>Real environments are messy. Inventories go stale. Hostnames are reused. A test machine becomes production without anyone updating a record. A critical server gets named like a workstation. In each case, the agent can reason flawlessly from bad inputs and still reach a confident, wrong conclusion. In ATOM’s own example, the system decides an asset is a workstation based on its hostname and network location (Velisaris, 2025). That works when naming conventions are reliable. If they are not, the agent may quarantine a machine that keeps the business running.</p>
+<p>The failure runs the other direction too. An agent may classify a compromised critical system as a harmless workstation and deprioritize it, so a real attack gets ignored. This is arguably worse, because nobody notices. The NIST framework stresses that AI systems must be valid and reliable and that organizations need to measure and manage risks like inaccurate or unrepresentative data (Tabassi, 2023). In a SOC, that translates into practical safeguards:</p>
+<ol>
+<li>Require agents to report their confidence and the sources behind their asset conclusions.</li>
+<li>Send low-confidence or conflicting-context decisions to a human before acting.</li>
+<li>Treat the highest-value assets as “always human-approved” regardless of what the agent concludes.</li>
+<li>Audit asset data regularly, and treat discrepancies the agent discovers as signals to fix the inventory.</li>
+</ol>
+<p>A responsible autonomous SOC does not assume its data is right. It treats data quality as a security control.</p>
+
+<h2>Is the SOC pilot model realistic and responsible?</h2>
+<p>My answer is yes, with conditions. It is realistic because agentic AI is clearly better at the contextual enrichment that has long forced analysts into swivel-chair work, and even IBM says orchestrated multi-agent capabilities are closer to autonomous operations than anything it has worked with before (Velisaris, 2025). It is responsible only if autonomy is tiered, accountability stays with named humans, and the system is designed to fail safe when its information is doubtful.</p>
+<p>It is also worth noting that Velisaris himself is cautious. He says it is still unknown whether AI will let SOC personnel move into the pilot chair, and that fully autonomous SOCs have not yet been realized (Velisaris, 2025). That honesty is a good sign. The risk is not the technology so much as organizations adopting the “minimal human involvement” language and cutting oversight faster than the technology earns trust.</p>
+
+<h2>What it takes to become a pilot instead of being replaced</h2>
+<p>If machines handle the routine work, the analysts who remain will be the ones who do what machines cannot. Here are the skills I plan to build:</p>
+<ul>
+<li><strong>Strong fundamentals.</strong> To judge whether an agent’s reasoning is sound, I need to understand networking, operating systems, attacker tactics, and how detection tools actually work. You cannot supervise what you do not understand.</li>
+<li><strong>Threat hunting and novel-threat analysis.</strong> Since pilots take over for the unfamiliar, I want to practice investigating situations with no playbook, including forming hypotheses and testing them against evidence.</li>
+<li><strong>AI literacy and healthy skepticism.</strong> I need to know how agents fail, including hallucinated conclusions, bad data, and overconfidence, and I should learn to ask for the evidence behind an agent’s decision rather than trusting its output.</li>
+<li><strong>Data and asset-management awareness.</strong> Because context drives everything, understanding how inventories, CMDBs, and configuration data get stale will make me better at catching the errors agents inherit.</li>
+<li><strong>Communication and risk judgment.</strong> Pilots explain decisions to leadership and weigh security against business impact. Writing clear incident summaries and understanding governance frameworks like NIST’s will matter as much as technical skill.</li>
+<li><strong>Continuous learning.</strong> The threat landscape and the tools will keep changing, so adaptability is a skill in itself.</li>
+</ul>
+<p>The analysts most at risk are those whose work is only the repetitive triage that agents now do well. The ones who thrive will treat the AI as a very fast junior colleague: useful, tireless, and in need of supervision.</p>
+
+<h2>Final thoughts</h2>
+<p>The SOC pilot is a strong metaphor because it captures both the promise and the responsibility. Autopilot is trusted because pilots are trained, present, and accountable. A SOC that removes its humans in the name of efficiency has not built an autopilot. It has built a plane with an empty cockpit. If we pair agentic AI with good data, clear boundaries, and well-trained analysts, we can get fewer burned-out defenders and faster responses without giving up the judgment that security depends on.</p>
+</article>
+
+<section id="references" class="refs">
+<h2>References</h2>
+<p>Tabassi, E. (2023). <em>Artificial intelligence risk management framework (AI RMF 1.0)</em> (NIST AI 100-1). National Institute of Standards and Technology. <a href="https://doi.org/10.6028/NIST.AI.100-1">https://doi.org/10.6028/NIST.AI.100-1</a></p>
+<p>Velisaris, J. (2025, May 8). <em>How agentic AI enables an autonomous SOC with minimal human involvement</em>. IBM. <a href="https://www.ibm.com/think/insights/agentic-ai-enables-autonomous-soc">https://www.ibm.com/think/insights/agentic-ai-enables-autonomous-soc</a></p>
+</section>
+</main>
+
+<script>
+var who=document.getElementById('who'),tog=document.getElementById('tog');
+tog.addEventListener('click',function(){var o=who.classList.toggle('open');tog.setAttribute('aria-expanded',o)});
+document.addEventListener('click',function(e){if(!who.contains(e.target)){who.classList.remove('open');tog.setAttribute('aria-expanded',false)}});
+document.getElementById('mail').addEventListener('submit',function(e){e.preventDefault();
+var b='From: '+document.getElementById('fn').value+'\n\n'+document.getElementById('fm').value;
+location.href='mailto:jaspher.velos@urios.edu.ph?subject='+encodeURIComponent(document.getElementById('fs').value)+'&body='+encodeURIComponent(b)});
+</script>
+</body>
+</html>
